@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fincas Kacla | Reservas Directas</title>
+    <style>
+        /* PALETA DE COLORES: Eje Cafetero Pro */
+        :root {
+            --nature-green: #2d5a27;
+            --wood-brown: #5d4037;
+            --gold-leaf: #d4af37;
+            --cream: #fdfbf7;
+            --dark-text: #1a1a1a;
+            --shadow: 0 15px 35px rgba(0,0,0,0.1);
+        }
+
+        * { box-sizing: border-box; transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+
+        body {
+            font-family: 'Playfair Display', serif, 'Segoe UI';
+            background-color: var(--cream);
+            color: var(--dark-text);
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        /* HEADER CON IMAGEN DE MONTAÑA */
+        header {
+            /* --- ACÁ ESTÁ EL CAMBIO DE IMAGEN --- */
+            /* He puesto un degradado para que el texto resalte, y una imagen de montaña pública */
+            background: linear-gradient(rgba(45, 90, 39, 0.7), rgba(93, 64, 55, 0.7)), 
+                        url('https://images.unsplash.com/photo-1464822759023-fed622ff2c3b?auto=format&fit=crop&w=1350&q=80');
+            
+            /* NOTA PARA ANDRÉS: Cuando tengas la foto real de la montaña de Kacla, 
+               cambias la URL de arriba por la ruta de tu imagen local o subida a Cloudinary/Netlify.
+               Ejemplo: url('img/montaña-kacla.jpg'); */
+            
+            background-size: cover;
+            background-position: center;
+            height: 400px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.5);
+            text-align: center;
+        }
+
+        header h1 { font-size: 3.5rem; margin: 0; letter-spacing: 4px; text-transform: uppercase; }
+        header p { font-size: 1.2rem; font-style: italic; opacity: 0.9; }
+
+        .container {
+            max-width: 1100px;
+            margin: -80px auto 50px;
+            padding: 0 20px;
+        }
+
+        /* CARD DE RESERVA */
+        .card {
+            background: white;
+            padding: 40px;
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            border: 1px solid rgba(45, 90, 39, 0.1);
+        }
+
+        h2 { 
+            color: var(--nature-green); 
+            font-size: 1.8rem;
+            margin-top: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h2::after { content: ""; flex: 1; height: 1px; background: #eee; }
+
+        /* FORMULARIO GRID */
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            gap: 25px;
+        }
+
+        .field { display: flex; flex-direction: column; }
+        label { font-size: 0.85rem; font-weight: 700; color: var(--wood-brown); margin-bottom: 8px; text-transform: uppercase; }
+        
+        input, select {
+            padding: 14px;
+            border: 2px solid #f0f0f0;
+            border-radius: 10px;
+            font-size: 1rem;
+            background: #fafafa;
+        }
+
+        input:focus { border-color: var(--gold-leaf); background: white; outline: none; }
+
+        .btn-submit {
+            grid-column: 1 / -1;
+            background: var(--nature-green);
+            color: white;
+            border: none;
+            padding: 20px;
+            border-radius: 10px;
+            font-size: 1.1rem;
+            font-weight: 800;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(45, 90, 39, 0.3);
+            margin-top: 15px;
+        }
+
+        .btn-submit:hover { background: var(--wood-brown); transform: scale(1.02); }
+
+        /* PANEL ADMINISTRATIVO (VISTA PARA EL DUEÑO) */
+        .admin-panel {
+            margin-top: 60px;
+            background: #232323;
+            color: #eee;
+            padding: 40px;
+            border-radius: 20px;
+            position: relative;
+        }
+
+        .admin-label {
+            position: absolute;
+            top: -15px;
+            right: 30px;
+            background: var(--gold-leaf);
+            color: black;
+            padding: 5px 20px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 0.8rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th { text-align: left; border-bottom: 1px solid #444; padding: 15px; color: var(--gold-leaf); }
+        td { padding: 15px; border-bottom: 1px solid #333; }
+
+        .pill {
+            background: var(--nature-green);
+            padding: 4px 10px;
+            border-radius: 5px;
+            font-size: 0.8rem;
+            font-weight: bold;
+        }
+
+        .empty { text-align: center; color: #666; padding: 40px; }
+
+        footer { text-align: center; padding: 50px; color: #aaa; font-size: 0.8rem; }
+    </style>
+</head>
+<body>
+
+<header>
+    <p>Bienvenidos a</p>
+    <h1>FINCAS KACLA</h1>
+    <p>Naturaleza y confort en Quimbaya, Quindío</p>
+</header>
+
+<div class="container">
+    <div class="card">
+        <h2>Consultar Disponibilidad</h2>
+        <form id="kaclaForm">
+            <div class="form-grid">
+                <div class="field">
+                    <label>Nombre Completo</label>
+                    <input type="text" id="nombre" placeholder="¿A nombre de quién?" required>
+                </div>
+                <div class="field">
+                    <label>WhatsApp / Celular</label>
+                    <input type="tel" id="tel" placeholder="Número de contacto" required>
+                </div>
+                <div class="field">
+                    <label>Fecha de Llegada</label>
+                    <input type="date" id="entrada" required>
+                </div>
+                <div class="field">
+                    <label>Fecha de Salida</label>
+                    <input type="date" id="salida" required>
+                </div>
+                <div class="field">
+                    <label>Hospedaje de interés</label>
+                    <select id="tipo">
+                        <option value="Habitación Doble">Habitación Doble</option>
+                        <option value="Cabaña Privada">Cabaña Privada</option>
+                        <option value="Finca Completa">Finca Completa (Grupos)</option>
+                    </select>
+                </div>
+                <div class="field">
+                    <label>Número de Personas</label>
+                    <input type="number" id="cantidad" min="1" value="2">
+                </div>
+                <button type="submit" class="btn-submit">ENVIAR SOLICITUD DE RESERVA</button>
+            </div>
+        </form>
+    </div>
+
+    <div class="admin-panel">
+        <span class="admin-label">DASHBOARD PRIVADO - FINCAS KACLA</span>
+        <h2>Gestión de Base de Datos</h2>
+        <p>Los datos de los interesados se capturan aquí automáticamente para su seguimiento comercial.</p>
+        
+        <div style="overflow-x: auto;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Cliente</th>
+                        <th>Teléfono</th>
+                        <th>Estancia</th>
+                        <th>Hospedaje</th>
+                        <th>Estado</th>
+                    </tr>
+                </thead>
+                <tbody id="dbContent">
+                    </tbody>
+            </table>
+            <div id="noData" class="empty">Esperando nuevas solicitudes de clientes...</div>
+        </div>
+
+        <div style="margin-top: 30px; border-top: 1px solid #333; padding-top: 20px; font-size: 0.9rem; color: #888;">
+            💡 <strong>Sugerencia de Negocio:</strong> Usted puede usar estos datos para enviar promociones masivas en temporada baja y llenar la finca sin depender de intermediarios.
+        </div>
+    </div>
+</div>
+
+<footer>
+    Diseñado por AV Productions &copy; 2026 | Tecnología para el Eje Cafetero
+</footer>
+
+<script>
+    const form = document.getElementById('kaclaForm');
+    const table = document.getElementById('dbContent');
+    const noData = document.getElementById('noData');
+
+    // Cargar datos al iniciar
+    document.addEventListener('DOMContentLoaded', updateView);
+
+    form.addEventListener('submit', (e) => {
+        e.preventDefault();
+
+        const data = {
+            id: Date.now(),
+            nombre: document.getElementById('nombre').value,
+            tel: document.getElementById('tel').value,
+            in: document.getElementById('entrada').value,
+            out: document.getElementById('salida').value,
+            tipo: document.getElementById('tipo').value,
+            status: 'SOLICITUD'
+        };
+
+        // Guardar en LocalStorage
+        let currentDB = JSON.parse(localStorage.getItem('kacla_db')) || [];
+        currentDB.push(data);
+        localStorage.setItem('kacla_db', JSON.stringify(currentDB));
+
+        form.reset();
+        updateView();
+        alert("¡Datos guardados con éxito en la base de datos de Fincas Kacla!");
+    });
+
+    function updateView() {
+        let currentDB = JSON.parse(localStorage.getItem('kacla_db')) || [];
+        
+        if(currentDB.length > 0) {
+            noData.style.display = 'none';
+            table.innerHTML = currentDB.map(item => `
+                <tr>
+                    <td><strong>${item.nombre}</strong></td>
+                    <td>${item.tel}</td>
+                    <td>${item.in} / ${item.out}</td>
+                    <td>${item.tipo}</td>
+                    <td><span class="pill">${item.status}</span></td>
+                </tr>
+            `).reverse().join('');
+        }
+    }
+</script>
+
+</body>
+</html>
