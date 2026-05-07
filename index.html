@@ -3,253 +3,311 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sistema de Reservas Pro | Eje Cafetero</title>
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+    <title>Terminal B2B | Infraestructura de Recaudo Directo 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2d5a27; 
-            --secondary: #5d4037; 
-            --accent: #d4af37; 
-            --bg: #fdfbf7;
-            --white: #ffffff;
-            --danger: #e74c3c;
-            --shadow: 0 10px 30px rgba(0,0,0,0.1);
+            /* Paleta Luxury Modern: Champagne Gold & Obsidiana */
+            --gold: #d9b38c; /* Oro champagne, suave y costoso */
+            --dark-bg: #010101; /* Casi negro absoluto */
+            --card-bg: #0a0a0a; /* Obsidiana sutil */
+            --glass: rgba(255, 255, 255, 0.02);
+            --glass-border: rgba(255, 255, 255, 0.06);
+            --text-primary: #ffffff;
+            --text-secondary: rgba(255,255,255,0.7);
+            --danger: #ff5e5e;
+            --success: #00e676;
+            
+            /* Redondeo y Sombras Modernas (Claymorphism hint) */
+            --radius-pro: 24px; /* Redondeo elegante y suave */
+            --shadow-premium: 0 30px 60px rgba(0,0,0,0.6);
+            --transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; transition: all 0.3s ease; }
+        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
 
-        body {
-            font-family: 'Inter', sans-serif;
-            background-color: var(--bg);
-            color: #2c3e50;
-            line-height: 1.6;
+        body { 
+            background-color: var(--dark-bg); 
+            color: var(--text-primary); 
+            font-weight: 200; 
+            overflow-x: hidden;
+            position: relative;
         }
 
-        /* HEADER */
+        /* Efecto de "Aura" de fondo (Luxury Trend) */
+        body::after {
+            content: '';
+            position: fixed;
+            top: -10%; left: -10%;
+            width: 120%; height: 120%;
+            background: radial-gradient(at 10% 10%, rgba(217, 179, 140, 0.05), transparent 50%);
+            z-index: -1;
+            filter: blur(100px);
+        }
+
+        /* --- SECCIONES ONE-PAGE --- */
+        section { min-height: 100vh; padding: 120px 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+
+        /* HERO - EL PUNTO MÁXIMO DE LA ENTRADA */
         header {
-            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), 
-                        url('https://images.unsplash.com/photo-1580910542152-441235332f18?auto=format&fit=crop&w=1350&q=80');
+            height: 100vh;
+            position: relative;
+            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
+                        url('https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=1920&q=80'); /* Imagen de Resort de Ultra Lujo */
             background-size: cover;
             background-position: center;
-            min-height: 350px;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
-            color: white;
             text-align: center;
-            padding: 40px 20px;
+            border-bottom: 1px solid var(--glass-border);
         }
 
-        header h1 { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 5vw, 3.5rem); margin-bottom: 10px; }
-        .badge { background: var(--accent); color: #000; padding: 6px 15px; border-radius: 50px; font-weight: 800; font-size: 0.7rem; text-transform: uppercase; margin-bottom: 15px; }
-
-        /* LAYOUT */
-        .main-wrapper {
-            max-width: 1200px;
-            margin: -50px auto 40px;
-            padding: 0 15px;
-            display: flex;
-            flex-wrap: wrap;
-            gap: 25px;
+        header .tagline { 
+            text-transform: uppercase; 
+            letter-spacing: 7px; 
+            font-size: 0.75rem; 
+            color: var(--gold); 
+            opacity: 0.8; 
+            font-weight: 400;
         }
 
-        .content-area { flex: 1; min-width: 320px; }
-        .sidebar-area { flex: 0 0 350px; }
-
-        @media (max-width: 850px) {
-            .sidebar-area { flex: 1 1 100%; }
-            .main-wrapper { margin-top: 20px; }
+        header h1 { 
+            font-family: 'Cinzel', serif; 
+            font-size: clamp(2.8rem, 8vw, 5rem); 
+            color: var(--text-primary); 
+            letter-spacing: 2px; 
+            margin: 15px 0 30px;
+            font-weight: 500;
         }
 
-        /* CARDS */
-        .card {
-            background: var(--white);
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-            margin-bottom: 25px;
+        header .divider { width: 50px; height: 1px; background: var(--glass-border); position: relative; }
+        header .divider::after { content: ''; position: absolute; top: -1px; left: 15px; width: 20px; height: 3px; background: var(--gold); border-radius: 10px; }
+
+        .scroll-btn {
+            position: absolute; bottom: 40px;
+            color: var(--gold); text-decoration: none;
+            font-size: 0.7rem; letter-spacing: 3px;
+            text-transform: uppercase; font-weight: 600;
+            transition: var(--transition);
         }
+        .scroll-btn:hover { opacity: 0.7; transform: translateY(5px); }
 
-        .card h2 { color: var(--primary); font-family: 'Playfair Display', serif; margin-bottom: 20px; border-bottom: 2px solid #f0f0f0; padding-bottom: 10px; }
-
-        /* FORMULARIO */
-        .field { margin-bottom: 15px; }
-        label { font-size: 0.75rem; font-weight: 800; text-transform: uppercase; color: var(--secondary); display: block; margin-bottom: 5px; }
-        input, select {
+        /* BENTO GRID LAYOUT (Modern Luxury standard) */
+        .app-container {
+            max-width: 1300px;
             width: 100%;
-            padding: 12px;
-            border: 2px solid #eee;
-            border-radius: 10px;
-            font-size: 1rem;
-            font-family: inherit;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 420px;
+            gap: 30px;
         }
-        input:focus { border-color: var(--primary); outline: none; }
 
-        .btn-submit {
+        @media (max-width: 1024px) { .app-container { grid-template-columns: 1fr; } }
+
+        /* PREMIUM CARDS (Claymorphism style) */
+        .glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--glass-border);
+            padding: 40px;
+            border-radius: var(--radius-pro); /* El Redondeo */
+            box-shadow: var(--shadow-premium);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .glass-card::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(at 100% 0%, rgba(255,255,255,0.01), transparent 40%);
+            pointer-events: none;
+        }
+
+        .glass-card:hover { border-color: rgba(217, 179, 140, 0.2); }
+
+        h2 { font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 30px; font-size: 1.5rem; letter-spacing: 2px; font-weight: 500; }
+
+        /* FORM MODERNLUXE */
+        .field { margin-bottom: 30px; }
+        label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 12px; font-weight: 600; }
+        
+        input {
             width: 100%;
-            background: var(--primary);
-            color: white;
-            border: none;
+            background: rgba(0,0,0,0.3);
+            border: 1px solid rgba(255,255,255,0.05);
             padding: 18px;
-            border-radius: 12px;
-            font-weight: 800;
-            cursor: pointer;
+            color: white;
+            border-radius: 12px; /* Redondeado suave */
             font-size: 1rem;
-            margin-top: 10px;
+            transition: var(--transition);
+            font-weight: 200;
         }
+        input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0.5); box-shadow: 0 0 15px rgba(217, 179, 140, 0.1); }
+        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1) opacity(0.5); cursor: pointer; }
 
-        .btn-submit:hover { background: var(--secondary); transform: translateY(-2px); }
-
-        /* CALCULADORA */
-        .calculator {
-            background: var(--primary);
-            color: white;
-            padding: 30px;
-            border-radius: 20px;
-            box-shadow: var(--shadow);
-        }
-
-        .calc-input {
+        .btn-action {
             width: 100%;
-            background: rgba(255,255,255,0.1);
-            border: 1px solid rgba(255,255,255,0.2);
-            padding: 12px;
-            color: white;
-            border-radius: 8px;
-            font-size: 1.2rem;
-            margin: 10px 0;
+            background: transparent;
+            border: 2px solid var(--gold);
+            color: var(--gold);
+            padding: 22px;
+            border-radius: 12px; /* Redondeado suave */
+            text-transform: uppercase;
+            letter-spacing: 5px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: var(--transition);
+            font-size: 0.85rem;
         }
 
-        .amount { font-size: 2rem; font-weight: 800; display: block; margin: 10px 0; }
-        .gold { color: var(--accent); }
-        .red { color: #ff7675; }
+        .btn-action:hover { background: var(--gold); color: #000; box-shadow: 0 10px 30px rgba(217, 179, 140, 0.3); }
 
-        /* TABLA DASHBOARD */
-        .table-container { overflow-x: auto; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th { text-align: left; font-size: 0.7rem; text-transform: uppercase; color: #999; padding: 12px; border-bottom: 2px solid #eee; }
-        td { padding: 12px; border-bottom: 1px solid #eee; font-size: 0.9rem; }
-        .pill { background: #e8f5e9; color: var(--primary); padding: 4px 10px; border-radius: 5px; font-weight: 800; font-size: 0.7rem; }
+        /* ROI SIDEBAR LUXURY */
+        .sidebar { position: sticky; top: 40px; align-self: start; }
+        .audit-box { border-color: rgba(255, 94, 94, 0.15); text-align: center; }
+        
+        .stat-display { margin: 30px 0; padding: 30px; background: rgba(0,0,0,0.3); border-radius: 15px; border: 1px solid rgba(255,255,255,0.02); }
+        .stat-label { font-size: 0.6rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
+        
+        .val { font-size: 2.5rem; font-weight: 700; display: block; letter-spacing: -1px; }
+        .val.minus { color: var(--danger); text-shadow: 0 0 15px rgba(255, 94, 94, 0.2); }
+        .val.plus { color: var(--success); text-shadow: 0 0 15px rgba(0, 230, 118, 0.2); }
 
-        footer { text-align: center; padding: 40px; color: #999; font-size: 0.8rem; }
+        /* TABLE FINANCIERA */
+        .table-wrapper { overflow-x: auto; margin-top: 30px; }
+        table { width: 100%; border-collapse: collapse; min-width: 600px; }
+        th { text-align: left; font-size: 0.6rem; color: var(--gold); padding: 20px; border-bottom: 1px solid var(--glass-border); text-transform: uppercase; letter-spacing: 2px; }
+        td { padding: 20px; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.01); transition: var(--transition); font-weight: 200; }
+        
+        tr:hover td { background: rgba(255,255,255,0.02); color: white; }
+
+        .status-badge { font-size: 0.6rem; color: var(--success); border: 1px solid var(--success); padding: 5px 10px; font-weight: 700; text-transform: uppercase; border-radius: 4px; letter-spacing: 1px; }
+
+        footer { padding: 100px 20px; text-align: center; opacity: 0.2; font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase; }
+
     </style>
 </head>
 <body>
 
-<header>
-    <div class="badge">Eje Cafetero: Actualización 2026</div>
-    <h1>Demo Hotel Quindío</h1>
-    <p>Infraestructura Digital para Reservas Directas</p>
+<header id="inicio">
+    <p class="tagline">Infraestructura Digital B2B / Ultra Luxe</p>
+    <h1 id="hotelBrand">SU HOTEL PREMIUM</h1>
+    <div class="divider"></div>
+    <a href="#demo" class="scroll-btn">Ingresar al Sistema ↓</a>
 </header>
 
-<div class="main-wrapper">
-    <div class="content-area">
-        <div class="card">
-            <h2>Simular una Reserva</h2>
-            <form id="bookingForm">
-                <div class="field">
-                    <label>Huésped Responsable</label>
-                    <input type="text" id="nombre" placeholder="Nombre completo" required>
-                </div>
-                <div style="display: flex; gap: 15px; flex-wrap: wrap;">
-                    <div class="field" style="flex: 1; min-width: 140px;">
-                        <label>Check-In</label>
-                        <input type="date" id="checkin" required>
+<section id="demo">
+    <div class="app-container">
+        <div class="main-panel">
+            <div class="glass-card">
+                <h2>Terminal de Recaudo Directo</h2>
+                <form id="bookingForm">
+                    <div class="field">
+                        <label>Titular de la Reserva</label>
+                        <input type="text" id="guestName" placeholder="Nombre completo del huésped" required>
                     </div>
-                    <div class="field" style="flex: 1; min-width: 140px;">
-                        <label>Check-Out</label>
-                        <input type="date" id="checkout" required>
+                    <div style="display: flex; gap: 20px;">
+                        <div class="field" style="flex: 1;">
+                            <label>Fecha de Entrada</label>
+                            <input type="date" required>
+                        </div>
+                        <div class="field" style="flex: 1;">
+                            <label>Fecha de Salida</label>
+                            <input type="date" required>
+                        </div>
                     </div>
-                </div>
-                <div class="field">
-                    <label>Acomodación</label>
-                    <select id="tipo">
-                        <option value="Habitación Superior">Habitación Superior</option>
-                        <option value="Cabaña de Montaña">Cabaña de Montaña</option>
-                        <option value="Suite Mirador">Suite Mirador</option>
-                    </select>
-                </div>
-                <button type="submit" class="btn-submit">ENVIAR RESERVA DIRECTA</button>
-            </form>
-        </div>
+                    <button type="submit" class="btn-action">Procesar Pago Neto</button>
+                </form>
+            </div>
 
-        <div class="card" style="background: #1a1a1a; color: white;">
-            <h2 style="color: var(--accent); border-color: #333;">Dashboard del Dueño</h2>
-            <p style="font-size: 0.8rem; color: #888; margin-bottom: 15px;">Captura de datos en tiempo real (Prototipo).</p>
-            <div class="table-container">
-                <table>
-                    <thead>
-                        <tr>
-                            <th>Cliente</th>
-                            <th>Hospedaje</th>
-                            <th>Total</th>
-                            <th>Estado</th>
-                        </tr>
-                    </thead>
-                    <tbody id="resumenTable">
-                        </tbody>
-                </table>
+            <div class="glass-card" style="margin-top: 30px;">
+                <h2>Panel de Ingresos (Tiempo Real)</h2>
+                <div class="table-wrapper">
+                    <table class="log-table">
+                        <thead>
+                            <tr>
+                                <th>Huésped</th>
+                                <th>Canal Digital</th>
+                                <th>Recaudo Neto</th>
+                                <th>Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="logBody">
+                            </tbody>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
 
-    <div class="sidebar-area">
-        <div class="calculator">
-            <h3 style="color: var(--accent); margin-bottom: 15px;">Calculadora de Recuperación</h3>
-            <p style="font-size: 0.8rem; opacity: 0.8;">Ventas mensuales por plataformas (Booking/Airbnb):</p>
-            <input type="number" class="calc-input" id="ventas" value="10000000" oninput="calcular()">
-            
-            <p style="font-size: 0.8rem; margin-top: 20px; opacity: 0.8;">Usted regala hoy en comisiones:</p>
-            <span class="amount red" id="perdida">$ 2.000.000</span>
-            
-            <div style="height: 1px; background: rgba(255,255,255,0.1); margin: 20px 0;"></div>
-            
-            <p style="font-size: 0.8rem; opacity: 0.8;">Capital que recupera con este sistema:</p>
-            <span class="amount gold" id="ganancia">$ 2.000.000</span>
-            
-            <p style="font-size: 0.7rem; opacity: 0.6; line-height: 1.2; margin-top: 15px;">
-                *El ahorro anual proyectado para este nivel es de <strong id="anual">$24M</strong>.
-            </p>
-        </div>
+        <aside class="sidebar">
+            <div class="glass-card audit-box">
+                <h3 style="font-size: 0.7rem; color: var(--danger); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px;">Auditoría Financiera de Fuga</h3>
+                <div class="field">
+                    <label>Venta Mensual Estimada (Airbnb/Booking)</label>
+                    <input type="number" id="revInput" value="45000000" oninput="calculate()">
+                </div>
+                
+                <div class="stat-display">
+                    <span class="stat-label">Comisiones perdidas este mes (20%)</span>
+                    <span class="val minus" id="lossText">$ 9.000.000</span>
+                </div>
+
+                <div class="stat-display" style="border: 2px dashed rgba(0, 230, 118, 0.2); background: rgba(0, 230, 118, 0.02);">
+                    <span class="stat-label">Utilidad neta recuperada hoy</span>
+                    <span class="val plus" id="gainText">$ 9.000.000</span>
+                </div>
+                <p style="font-size: 0.55rem; opacity: 0.4; letter-spacing: 1px; margin-top: 20px;">
+                    SISTEMA DE INDEPENDENCIA FINANCIERA V.2026
+                </p>
+            </div>
+        </aside>
     </div>
-</div>
+</section>
 
 <footer>
-    Andrés Villegas | Soluciones Tecnológicas Regionales &copy; 2026
+    ANDRÉS VILLEGAS | ESTRATEGIA TECNOLÓGICA B2B TOURISM
 </footer>
 
 <script>
-    function calcular() {
-        const v = document.getElementById('ventas').value;
-        const p = v * 0.20;
-        const format = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
+    // PERSONALIZACIÓN DEL CLIENTE
+    const currentHotel = "Su Hotel Aqui"; // Andrés, cambia esto aquí
+    document.getElementById('hotelBrand').innerText = currentHotel;
+
+    // CALCULADORA FINANCIERA B2B
+    function calculate() {
+        const rev = document.getElementById('revInput').value || 0;
+        const loss = rev * 0.20; // 20% comisiones plataformas + transacción
+        const fmt = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
         
-        document.getElementById('perdida').innerText = format.format(p);
-        document.getElementById('ganancia').innerText = format.format(p);
-        document.getElementById('anual').innerText = format.format(p * 12);
+        document.getElementById('lossText').innerText = fmt.format(loss);
+        document.getElementById('gainText').innerText = fmt.format(loss);
     }
 
+    // REGISTRO DE RESERVA SIMULADA
     document.getElementById('bookingForm').addEventListener('submit', function(e) {
         e.preventDefault();
-        const tabla = document.getElementById('resumenTable');
-        const nombre = document.getElementById('nombre').value;
-        const tipo = document.getElementById('tipo').value;
-        const precio = '$' + (Math.floor(Math.random() * 400) + 200) + '.000';
-
-        const row = `<tr>
-            <td><strong>${nombre}</strong></td>
-            <td>${tipo}</td>
-            <td style="color: #4cd137;">${precio}</td>
-            <td><span class="pill">DIRECTO</span></td>
-        </tr>`;
+        const guest = document.getElementById('guestName').value;
+        // Precio simulado alto para la "trama"
+        const price = '$' + (Math.floor(Math.random() * 900) + 400) + '.000';
         
-        tabla.innerHTML = row + tabla.innerHTML;
+        const row = `<tr>
+            <td style="font-weight: 600; color: white;">${guest}</td>
+            <td style="opacity: 0.7;">Orgánico / Directo</td>
+            <td style="color: var(--success); font-weight: 700;">${price}</td>
+            <td><span class="status-badge">RECAUDADO</span></td>
+        </tr>`;
+
+        // Insertar al inicio con una leve animación de opacidad
+        document.getElementById('logBody').insertAdjacentHTML('afterbegin', row);
+        
         this.reset();
-        alert("Simulación exitosa. Los datos ya están en su base de datos privada.");
+        alert("¡Recaudo exitoso! El 100% de este pago neto ha sido registrado directamente en su cuenta operativa.");
     });
 
-    calcular();
+    calculate(); // Ejecutar al cargar
 </script>
 
 </body>
