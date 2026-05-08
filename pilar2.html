@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilar 2 | Panel Financiero Apex Luxury</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================
+           1. VARIABLES Y DISEÑO BASE
+           ========================================= */
+        :root {
+            --gold: #e5c096;
+            --dark-bg: #050505;
+            --glass-bg: rgba(20, 20, 20, 0.6);
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --success: #00e676;
+            --danger: #ff5e5e;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            animation: fadeIn 0.8s ease-out;
+            overflow-x: hidden;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .volver-btn {
+            align-self: flex-start;
+            margin-bottom: 20px;
+            color: var(--gold);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.8rem;
+            border: 1px solid var(--gold);
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .volver-btn:hover { background: var(--gold); color: black; }
+
+        h1 { font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 10px; text-align: center; }
+        .subtitle { color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 40px; text-align: center; }
+
+        /* =========================================
+           2. ESTRUCTURA DEL PANEL Y TARJETAS
+           ========================================= */
+        .dashboard-container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid rgba(229, 192, 150, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        /* Inputs y Tipografía */
+        .calc-input-group label { display: block; font-size: 0.7rem; color: var(--gold); text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px; }
+        
+        .calc-input {
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 15px;
+            color: white;
+            font-size: 1.2rem;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .calc-input:focus { border-color: var(--gold); }
+
+        .stat-title { font-size: 0.75rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 10px; }
+        .stat-value { font-size: 2.5rem; font-weight: 600; margin-bottom: 5px; }
+        
+        .value-success { color: var(--success); text-shadow: 0 0 15px rgba(0, 230, 118, 0.3); }
+        .value-danger { color: var(--danger); text-shadow: 0 0 15px rgba(255, 94, 94, 0.3); }
+
+        /* =========================================
+           3. DISEÑO DE LA TABLA DE HISTORIAL
+           ========================================= */
+        .table-wrapper {
+            overflow-x: auto;
+            margin-top: 10px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: left;
+            min-width: 600px;
+        }
+
+        th {
+            padding: 15px;
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: var(--gold);
+            border-bottom: 1px solid rgba(229, 192, 150, 0.3);
+        }
+
+        td {
+            padding: 15px;
+            font-size: 0.9rem;
+            border-bottom: 1px solid rgba(255,255,255,0.05);
+            color: var(--text-main);
+        }
+
+        /* Etiqueta de estado visual para el 0% de comisión */
+        .badge-success {
+            background-color: rgba(0, 230, 118, 0.1);
+            color: var(--success);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border: 1px solid rgba(0, 230, 118, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="volver-btn">← Volver al Modelo</a>
+
+    <h1>Generador de Margen Incremental</h1>
+    <p class="subtitle">Auditoría Financiera y Recuperación de Utilidad Neta</p>
+
+    <div class="dashboard-container">
+        <!-- BLOQUE SUPERIOR: TARJETAS FINANCIERAS -->
+        <div class="dashboard-grid">
+            
+            <div class="glass-card">
+                <div class="stat-title" style="color: var(--gold);">Simulador de Flujo de Caja</div>
+                <p style="font-size: 0.85rem; color: var(--text-muted); margin-bottom: 20px; line-height: 1.5;">
+                    Ingrese la proyección de ventas de su hotel para calcular el margen recuperado.
+                </p>
+                <div class="calc-input-group">
+                    <label>Ventas Mensuales Estimadas (COP)</label>
+                    <input type="number" id="inputVentas" class="calc-input" value="50000000" oninput="iniciarCalculo()">
+                </div>
+            </div>
+
+            <div class="glass-card" style="border-top: 4px solid var(--danger);">
+                <div class="stat-title">Fuga de Capital (Modelo Tradicional)</div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Comisión promedio retenida (20%)</p>
+                <div class="stat-value value-danger" id="textoPerdida">$ 0</div>
+                <p style="font-size: 0.7rem; color: rgba(255,94,94,0.7); text-transform: uppercase;">Dinero pagado a terceros</p>
+            </div>
+
+            <div class="glass-card" style="border-top: 4px solid var(--success); position: relative; overflow: hidden;">
+                <div style="position: absolute; top: -50%; left: -50%; width: 200%; height: 200%; background: radial-gradient(circle, rgba(0,230,118,0.1) 0%, transparent 50%); z-index: -1;"></div>
+                <div class="stat-title">Margen Recuperado (Apex Luxury)</div>
+                <p style="font-size: 0.8rem; color: var(--text-muted); margin-bottom: 15px;">Utilidad neta reinyectada a su cuenta</p>
+                <div class="stat-value value-success" id="textoGanancia">$ 0</div>
+                <p style="font-size: 0.7rem; color: var(--success); text-transform: uppercase; letter-spacing: 1px;">Flujo de caja inmediato</p>
+            </div>
+
+        </div>
+
+        <!-- BLOQUE INFERIOR: TABLA DE HISTORIAL -->
+        <div class="glass-card">
+            <h2 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.2rem; margin-bottom: 20px;">Historial de Transacciones Directas</h2>
+            
+            <div class="table-wrapper">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID Reserva</th>
+                            <th>Huésped</th>
+                            <th>Monto Total</th>
+                            <th>Comisión OTA</th>
+                            <th>Estado del Recaudo</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="color: var(--text-muted);">#AX-9042</td>
+                            <td>Isabella Rossi</td>
+                            <td>$ 1.250.000</td>
+                            <td><span class="badge-success">0% (Ahorro $250k)</span></td>
+                            <td style="color: var(--success);">Directo a Cuenta</td>
+                        </tr>
+                        <tr>
+                            <td style="color: var(--text-muted);">#AX-9043</td>
+                            <td>Carlos Mendoza</td>
+                            <td>$ 3.400.000</td>
+                            <td><span class="badge-success">0% (Ahorro $680k)</span></td>
+                            <td style="color: var(--success);">Directo a Cuenta</td>
+                        </tr>
+                        <tr>
+                            <td style="color: var(--text-muted);">#AX-9044</td>
+                            <td>Elena Gilbert</td>
+                            <td>$ 890.000</td>
+                            <td><span class="badge-success">0% (Ahorro $178k)</span></td>
+                            <td style="color: var(--success);">Directo a Cuenta</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================
+         4. SCRIPT DE ANIMACIÓN Y CÁLCULO
+         ========================================= -->
+    <script>
+        // Formateador de moneda colombiana
+        const formateador = new Intl.NumberFormat('es-CO', { 
+            style: 'currency', 
+            currency: 'COP', 
+            maximumFractionDigits: 0 
+        });
+
+        // Función para animar los números desde cero hasta el valor final
+        function animarNumero(elementoId, valorFinal) {
+            const elemento = document.getElementById(elementoId);
+            let valorActual = 0;
+            
+            // Dividimos el valor en 40 pasos para que la animación sea rápida y fluida
+            const incremento = valorFinal / 40; 
+            
+            // Usamos setInterval para ejecutar el código cada 20 milisegundos
+            const intervalo = setInterval(() => {
+                valorActual += incremento;
+                
+                // Si el valor actual supera o iguala al final, detenemos la animación
+                if (valorActual >= valorFinal) {
+                    valorActual = valorFinal;
+                    clearInterval(intervalo);
+                }
+                
+                // Actualizamos el texto en el HTML con el formato de moneda
+                elemento.innerText = formateador.format(valorActual);
+            }, 20);
+        }
+
+        // Función principal que lee el input y llama a la animación
+        function iniciarCalculo() {
+            const ventasBrutas = document.getElementById('inputVentas').value || 0;
+            const margenComision = ventasBrutas * 0.20; // 20% de las ventas
+            
+            // Lanzamos la animación para ambas tarjetas
+            animarNumero('textoPerdida', margenComision);
+            animarNumero('textoGanancia', margenComision);
+        }
+
+        // Ejecutar el cálculo y la animación la primera vez que carga la página
+        iniciarCalculo();
+    </script>
+</body>
+</html>

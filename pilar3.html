@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pilar 3 | Soberanía de Datos Apex Luxury</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* =========================================
+           1. VARIABLES Y DISEÑO BASE
+           ========================================= */
+        :root {
+            --gold: #e5c096;
+            --dark-bg: #050505;
+            --glass-bg: rgba(20, 20, 20, 0.6);
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --success: #00e676;
+            --accent: #4fc3f7; /* Color acento para datos */
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            padding: 40px 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            min-height: 100vh;
+            animation: fadeIn 0.8s ease-out;
+            overflow-x: hidden;
+            background-image: radial-gradient(circle at 80% 20%, rgba(79, 195, 247, 0.05), transparent 50%);
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: scale(0.98); }
+            100% { opacity: 1; transform: scale(1); }
+        }
+
+        .volver-btn {
+            align-self: flex-start;
+            margin-bottom: 20px;
+            color: var(--gold);
+            text-decoration: none;
+            text-transform: uppercase;
+            letter-spacing: 3px;
+            font-size: 0.8rem;
+            border: 1px solid var(--gold);
+            padding: 10px 20px;
+            border-radius: 5px;
+            transition: all 0.3s ease;
+        }
+
+        .volver-btn:hover { background: var(--gold); color: black; }
+
+        h1 { font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 10px; text-align: center; }
+        .subtitle { color: var(--text-muted); text-transform: uppercase; letter-spacing: 2px; font-size: 0.8rem; margin-bottom: 40px; text-align: center; }
+
+        /* =========================================
+           2. CONTENEDORES Y TARJETAS DE DATOS
+           ========================================= */
+        .dashboard-container {
+            width: 100%;
+            max-width: 1200px;
+            display: flex;
+            flex-direction: column;
+            gap: 30px;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .glass-card {
+            background: var(--glass-bg);
+            border: 1px solid rgba(229, 192, 150, 0.2);
+            padding: 30px;
+            border-radius: 15px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
+            backdrop-filter: blur(10px);
+        }
+
+        .stat-title { font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--text-muted); margin-bottom: 10px; }
+        .stat-value { font-size: 2rem; font-weight: 600; color: var(--text-main); }
+        .stat-highlight { color: var(--accent); text-shadow: 0 0 15px rgba(79, 195, 247, 0.3); }
+
+        /* =========================================
+           3. BUSCADOR Y TABLA DE CLIENTES (CRM)
+           ========================================= */
+        .search-bar {
+            width: 100%;
+            background: rgba(0,0,0,0.5);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 15px 20px;
+            color: white;
+            font-size: 1rem;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            outline: none;
+            transition: border-color 0.3s ease;
+        }
+        .search-bar:focus { border-color: var(--accent); box-shadow: 0 0 15px rgba(79, 195, 247, 0.15); }
+
+        .table-wrapper { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; text-align: left; min-width: 700px; }
+        th { padding: 15px; font-size: 0.7rem; text-transform: uppercase; letter-spacing: 2px; color: var(--gold); border-bottom: 1px solid rgba(229, 192, 150, 0.3); }
+        td { padding: 15px; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.05); color: var(--text-main); transition: background 0.3s ease; }
+        tr:hover td { background-color: rgba(255,255,255,0.03); }
+
+        .badge-data {
+            background-color: rgba(79, 195, 247, 0.1);
+            color: var(--accent);
+            padding: 5px 10px;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+            border: 1px solid rgba(79, 195, 247, 0.3);
+        }
+
+    </style>
+</head>
+<body>
+
+    <a href="index.html" class="volver-btn">← Volver al Modelo</a>
+
+    <h1>Patrimonio Digital y CRM</h1>
+    <p class="subtitle">Bases de datos soberanas y perfilamiento de huéspedes</p>
+
+    <div class="dashboard-container">
+        <!-- Tarjetas de Resumen de Datos -->
+        <div class="stats-grid">
+            <div class="glass-card" style="border-top: 3px solid var(--accent);">
+                <div class="stat-title">Perfiles Capturados</div>
+                <div class="stat-value stat-highlight">1,248</div>
+                <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 10px;">Propiedad exclusiva del hotel</p>
+            </div>
+            <div class="glass-card">
+                <div class="stat-title">Dependencia de Plataformas</div>
+                <div class="stat-value" style="color: var(--success);">0%</div>
+                <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 10px;">Intermediarios eliminados</p>
+            </div>
+            <div class="glass-card">
+                <div class="stat-title">Campañas Directas Activas</div>
+                <div class="stat-value">3</div>
+                <p style="font-size: 0.7rem; color: var(--text-muted); margin-top: 10px;">Retargeting a correos propios</p>
+            </div>
+        </div>
+
+        <!-- Tabla Interactiva CRM -->
+        <div class="glass-card">
+            <h2 style="font-family: 'Cinzel', serif; color: var(--gold); font-size: 1.2rem; margin-bottom: 20px;">Directorio Global de Huéspedes</h2>
+            
+            <!-- Buscador en tiempo real -->
+            <input type="text" id="buscadorCRM" class="search-bar" placeholder="Buscar huésped por nombre o correo..." onkeyup="filtrarHuespedes()">
+
+            <div class="table-wrapper">
+                <table id="tablaHuespedes">
+                    <thead>
+                        <tr>
+                            <th>Nombre del Huésped</th>
+                            <th>Correo de Contacto</th>
+                            <th>Visitas</th>
+                            <th>Valor Vitalicio (LTV)</th>
+                            <th>Soberanía</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td style="font-weight: 600;">Alexander Hamilton</td>
+                            <td style="color: var(--text-muted);">alexander.h@empresa.com</td>
+                            <td>4</td>
+                            <td>$ 8.500.000</td>
+                            <td><span class="badge-data">100% Propio</span></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">Sofía Vergara</td>
+                            <td style="color: var(--text-muted);">sofia.v@correo.com</td>
+                            <td>1</td>
+                            <td>$ 1.200.000</td>
+                            <td><span class="badge-data">100% Propio</span></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">James Bond</td>
+                            <td style="color: var(--text-muted);">j.bond@mi6.gov.uk</td>
+                            <td>7</td>
+                            <td>$ 22.400.000</td>
+                            <td><span class="badge-data">100% Propio</span></td>
+                        </tr>
+                        <tr>
+                            <td style="font-weight: 600;">Isabella Rossi</td>
+                            <td style="color: var(--text-muted);">i.rossi@studio.it</td>
+                            <td>2</td>
+                            <td>$ 3.100.000</td>
+                            <td><span class="badge-data">100% Propio</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================
+         4. SCRIPT DEL BUSCADOR EN TIEMPO REAL
+         ========================================= -->
+    <script>
+        /**
+         * Función que lee lo que el usuario escribe y oculta las filas 
+         * de la tabla que no coinciden con la búsqueda.
+         */
+        function filtrarHuespedes() {
+            // 1. Obtenemos lo que el usuario escribió y lo pasamos a minúsculas
+            const textoBusqueda = document.getElementById('buscadorCRM').value.toLowerCase();
+            
+            // 2. Obtenemos la tabla y todas sus filas (<tr>) dentro del <tbody>
+            const tabla = document.getElementById('tablaHuespedes');
+            const filas = tabla.getElementsByTagName('tbody')[0].getElementsByTagName('tr');
+
+            // 3. Recorremos cada fila una por una
+            for (let i = 0; i < filas.length; i++) {
+                // Obtenemos el texto de la primera columna (Nombre) y la segunda (Correo)
+                const columnaNombre = filas[i].getElementsByTagName('td')[0].innerText.toLowerCase();
+                const columnaCorreo = filas[i].getElementsByTagName('td')[1].innerText.toLowerCase();
+
+                // 4. Comprobamos si el texto buscado está en el nombre o en el correo
+                if (columnaNombre.includes(textoBusqueda) || columnaCorreo.includes(textoBusqueda)) {
+                    // Si coincide, mostramos la fila
+                    filas[i].style.display = "";
+                } else {
+                    // Si no coincide, ocultamos la fila
+                    filas[i].style.display = "none";
+                }
+            }
+        }
+    </script>
+</body>
+</html>

@@ -3,312 +3,240 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Terminal B2B | Infraestructura de Recaudo Directo 2026</title>
+    <title>Apex Luxury | Implementación del Modelo</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Montserrat:wght@200;400;600&display=swap" rel="stylesheet">
     <style>
+        /* =========================================
+           VARIABLES Y CONFIGURACIÓN BASE
+           ========================================= */
         :root {
-            /* Paleta Luxury Modern: Champagne Gold & Obsidiana */
-            --gold: #d9b38c; /* Oro champagne, suave y costoso */
-            --dark-bg: #010101; /* Casi negro absoluto */
-            --card-bg: #0a0a0a; /* Obsidiana sutil */
-            --glass: rgba(255, 255, 255, 0.02);
-            --glass-border: rgba(255, 255, 255, 0.06);
-            --text-primary: #ffffff;
-            --text-secondary: rgba(255,255,255,0.7);
-            --danger: #ff5e5e;
-            --success: #00e676;
-            
-            /* Redondeo y Sombras Modernas (Claymorphism hint) */
-            --radius-pro: 24px; /* Redondeo elegante y suave */
-            --shadow-premium: 0 30px 60px rgba(0,0,0,0.6);
-            --transition: all 0.5s cubic-bezier(0.22, 1, 0.36, 1);
+            --gold: #e5c096;
+            --dark-bg: #050505;
+            --text-main: #ffffff;
+            --text-muted: rgba(255, 255, 255, 0.6);
+            --glass-bg: rgba(20, 20, 20, 0.6);
+            --transition: all 0.6s cubic-bezier(0.25, 1, 0.5, 1);
         }
 
-        * { box-sizing: border-box; margin: 0; padding: 0; font-family: 'Montserrat', sans-serif; scroll-behavior: smooth; }
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Montserrat', sans-serif; }
+        
+        body {
+            background-color: var(--dark-bg);
+            color: var(--text-main);
+            overflow-x: hidden; /* Evita el scroll horizontal indeseado */
+        }
+        
+        h1, h2, h3 { font-family: 'Cinzel', serif; color: var(--gold); font-weight: 500; }
 
-        body { 
-            background-color: var(--dark-bg); 
-            color: var(--text-primary); 
-            font-weight: 200; 
-            overflow-x: hidden;
-            position: relative;
+        /* =========================================
+           EFECTOS DE ANIMACIÓN CSS (La Magia)
+           ========================================= */
+        /* Efecto para elementos ocultos antes de hacer scroll */
+        .hidden-step {
+            opacity: 0;
+            transform: translateY(60px); /* Empieza un poco más abajo */
+            transition: opacity 1s ease-out, transform 1s ease-out;
         }
 
-        /* Efecto de "Aura" de fondo (Luxury Trend) */
-        body::after {
-            content: '';
-            position: fixed;
-            top: -10%; left: -10%;
-            width: 120%; height: 120%;
-            background: radial-gradient(at 10% 10%, rgba(217, 179, 140, 0.05), transparent 50%);
-            z-index: -1;
-            filter: blur(100px);
+        /* Clase que JavaScript añadirá para mostrar el elemento */
+        .show-step {
+            opacity: 1;
+            transform: translateY(0);
         }
 
-        /* --- SECCIONES ONE-PAGE --- */
-        section { min-height: 100vh; padding: 120px 24px; display: flex; flex-direction: column; justify-content: center; align-items: center; }
+        /* Animación de flotación constante para las imágenes */
+        @keyframes float {
+            0% { transform: translateY(0px); }
+            50% { transform: translateY(-15px); }
+            100% { transform: translateY(0px); }
+        }
 
-        /* HERO - EL PUNTO MÁXIMO DE LA ENTRADA */
-        header {
+        .floating-mockup {
+            animation: float 6s ease-in-out infinite;
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8);
+            border: 1px solid rgba(229, 192, 150, 0.2);
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* =========================================
+           ESTRUCTURA DE SECCIONES (Layout)
+           ========================================= */
+        .hero {
             height: 100vh;
-            position: relative;
-            background: linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.8)), 
-                        url('https://images.unsplash.com/photo-1571003123894-1f0594d2b5d9?auto=format&fit=crop&w=1920&q=80'); /* Imagen de Resort de Ultra Lujo */
-            background-size: cover;
-            background-position: center;
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            border-bottom: 1px solid var(--glass-border);
+            padding: 20px;
+            background: radial-gradient(circle at center, rgba(229, 192, 150, 0.1), transparent 60%);
         }
 
-        header .tagline { 
-            text-transform: uppercase; 
-            letter-spacing: 7px; 
-            font-size: 0.75rem; 
-            color: var(--gold); 
-            opacity: 0.8; 
-            font-weight: 400;
+        .hero h1 { font-size: clamp(2.5rem, 6vw, 4.5rem); letter-spacing: 2px; margin-bottom: 20px; }
+        .hero p { max-width: 600px; line-height: 1.8; color: var(--text-muted); }
+
+        .step-section {
+            min-height: 80vh;
+            display: flex;
+            align-items: center;
+            padding: 80px 10%;
+            gap: 50px;
         }
 
-        header h1 { 
-            font-family: 'Cinzel', serif; 
-            font-size: clamp(2.8rem, 8vw, 5rem); 
-            color: var(--text-primary); 
-            letter-spacing: 2px; 
-            margin: 15px 0 30px;
-            font-weight: 500;
+        /* Intercalamos el orden visual para que sea más dinámico (texto izq, imagen der y viceversa) */
+        .step-section:nth-child(even) { flex-direction: row-reverse; }
+
+        @media (max-width: 900px) {
+            .step-section, .step-section:nth-child(even) { flex-direction: column; text-align: center; }
         }
 
-        header .divider { width: 50px; height: 1px; background: var(--glass-border); position: relative; }
-        header .divider::after { content: ''; position: absolute; top: -1px; left: 15px; width: 20px; height: 3px; background: var(--gold); border-radius: 10px; }
-
-        .scroll-btn {
-            position: absolute; bottom: 40px;
-            color: var(--gold); text-decoration: none;
-            font-size: 0.7rem; letter-spacing: 3px;
-            text-transform: uppercase; font-weight: 600;
-            transition: var(--transition);
-        }
-        .scroll-btn:hover { opacity: 0.7; transform: translateY(5px); }
-
-        /* BENTO GRID LAYOUT (Modern Luxury standard) */
-        .app-container {
-            max-width: 1300px;
-            width: 100%;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: 1fr 420px;
-            gap: 30px;
-        }
-
-        @media (max-width: 1024px) { .app-container { grid-template-columns: 1fr; } }
-
-        /* PREMIUM CARDS (Claymorphism style) */
-        .glass-card {
-            background: var(--card-bg);
-            border: 1px solid var(--glass-border);
-            padding: 40px;
-            border-radius: var(--radius-pro); /* El Redondeo */
-            box-shadow: var(--shadow-premium);
-            transition: var(--transition);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .glass-card::before {
+        .step-content { flex: 1; }
+        .step-content h2 { font-size: 2.5rem; margin-bottom: 20px; }
+        .step-content p { line-height: 1.8; color: var(--text-muted); font-size: 1.1rem; margin-bottom: 30px; }
+        
+        .step-visual { flex: 1; display: flex; justify-content: center; position: relative; }
+        
+        /* Círculo decorativo de fondo para la imagen */
+        .step-visual::before {
             content: '';
             position: absolute;
-            top: 0; left: 0; width: 100%; height: 100%;
-            background: radial-gradient(at 100% 0%, rgba(255,255,255,0.01), transparent 40%);
-            pointer-events: none;
+            width: 300px; height: 300px;
+            background: var(--gold);
+            border-radius: 50%;
+            filter: blur(100px);
+            opacity: 0.1;
+            z-index: -1;
         }
 
-        .glass-card:hover { border-color: rgba(217, 179, 140, 0.2); }
-
-        h2 { font-family: 'Cinzel', serif; color: var(--gold); margin-bottom: 30px; font-size: 1.5rem; letter-spacing: 2px; font-weight: 500; }
-
-        /* FORM MODERNLUXE */
-        .field { margin-bottom: 30px; }
-        label { display: block; font-size: 0.65rem; text-transform: uppercase; letter-spacing: 3px; color: var(--gold); margin-bottom: 12px; font-weight: 600; }
-        
-        input {
+        /* =========================================
+           SISTEMA DE TRANSICIÓN ENTRE PÁGINAS
+           ========================================= */
+        /* Este es el "telón" que cubrirá la pantalla al hacer clic */
+        .page-transition-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
             width: 100%;
-            background: rgba(0,0,0,0.3);
-            border: 1px solid rgba(255,255,255,0.05);
-            padding: 18px;
-            color: white;
-            border-radius: 12px; /* Redondeado suave */
-            font-size: 1rem;
-            transition: var(--transition);
-            font-weight: 200;
+            height: 100vh;
+            background-color: var(--dark-bg); /* Usa el color de fondo oscuro */
+            z-index: 9999; /* Asegura que esté por encima de todo */
+            opacity: 0; /* Inicia invisible */
+            pointer-events: none; /* Permite hacer clic a través de él cuando es invisible */
+            transition: opacity 0.5s ease-in-out; /* Animación suave de medio segundo */
         }
-        input:focus { outline: none; border-color: var(--gold); background: rgba(0,0,0,0.5); box-shadow: 0 0 15px rgba(217, 179, 140, 0.1); }
-        input[type="date"]::-webkit-calendar-picker-indicator { filter: invert(1) opacity(0.5); cursor: pointer; }
 
-        .btn-action {
-            width: 100%;
-            background: transparent;
-            border: 2px solid var(--gold);
-            color: var(--gold);
-            padding: 22px;
-            border-radius: 12px; /* Redondeado suave */
-            text-transform: uppercase;
-            letter-spacing: 5px;
-            font-weight: 700;
+        /* Al añadir esta clase con JS, el telón se vuelve negro sólido */
+        .page-transition-overlay.active {
+            opacity: 1;
+            pointer-events: all;
+        }
+
+        /* Añadimos un cursor de "mano" para indicar que la imagen es un botón */
+        .clickable-image {
             cursor: pointer;
-            transition: var(--transition);
-            font-size: 0.85rem;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
         }
-
-        .btn-action:hover { background: var(--gold); color: #000; box-shadow: 0 10px 30px rgba(217, 179, 140, 0.3); }
-
-        /* ROI SIDEBAR LUXURY */
-        .sidebar { position: sticky; top: 40px; align-self: start; }
-        .audit-box { border-color: rgba(255, 94, 94, 0.15); text-align: center; }
-        
-        .stat-display { margin: 30px 0; padding: 30px; background: rgba(0,0,0,0.3); border-radius: 15px; border: 1px solid rgba(255,255,255,0.02); }
-        .stat-label { font-size: 0.6rem; opacity: 0.6; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 10px; display: block; }
-        
-        .val { font-size: 2.5rem; font-weight: 700; display: block; letter-spacing: -1px; }
-        .val.minus { color: var(--danger); text-shadow: 0 0 15px rgba(255, 94, 94, 0.2); }
-        .val.plus { color: var(--success); text-shadow: 0 0 15px rgba(0, 230, 118, 0.2); }
-
-        /* TABLE FINANCIERA */
-        .table-wrapper { overflow-x: auto; margin-top: 30px; }
-        table { width: 100%; border-collapse: collapse; min-width: 600px; }
-        th { text-align: left; font-size: 0.6rem; color: var(--gold); padding: 20px; border-bottom: 1px solid var(--glass-border); text-transform: uppercase; letter-spacing: 2px; }
-        td { padding: 20px; font-size: 0.9rem; border-bottom: 1px solid rgba(255,255,255,0.01); transition: var(--transition); font-weight: 200; }
-        
-        tr:hover td { background: rgba(255,255,255,0.02); color: white; }
-
-        .status-badge { font-size: 0.6rem; color: var(--success); border: 1px solid var(--success); padding: 5px 10px; font-weight: 700; text-transform: uppercase; border-radius: 4px; letter-spacing: 1px; }
-
-        footer { padding: 100px 20px; text-align: center; opacity: 0.2; font-size: 0.7rem; letter-spacing: 5px; text-transform: uppercase; }
-
+        .clickable-image:hover {
+            transform: scale(1.05) translateY(-10px); /* Efecto de crecimiento al pasar el ratón */
+            box-shadow: 0 30px 60px rgba(229, 192, 150, 0.2); /* Brillo dorado */
+        }
     </style>
 </head>
 <body>
 
-<header id="inicio">
-    <p class="tagline">Infraestructura Digital B2B / Ultra Luxe</p>
-    <h1 id="hotelBrand">SU HOTEL PREMIUM</h1>
-    <div class="divider"></div>
-    <a href="#demo" class="scroll-btn">Ingresar al Sistema ↓</a>
-</header>
+    <!-- Telón para la transición (Debe estar al inicio del body) -->
+    <div class="page-transition-overlay" id="transitionOverlay"></div>
 
-<section id="demo">
-    <div class="app-container">
-        <div class="main-panel">
-            <div class="glass-card">
-                <h2>Terminal de Recaudo Directo</h2>
-                <form id="bookingForm">
-                    <div class="field">
-                        <label>Titular de la Reserva</label>
-                        <input type="text" id="guestName" placeholder="Nombre completo del huésped" required>
-                    </div>
-                    <div style="display: flex; gap: 20px;">
-                        <div class="field" style="flex: 1;">
-                            <label>Fecha de Entrada</label>
-                            <input type="date" required>
-                        </div>
-                        <div class="field" style="flex: 1;">
-                            <label>Fecha de Salida</label>
-                            <input type="date" required>
-                        </div>
-                    </div>
-                    <button type="submit" class="btn-action">Procesar Pago Neto</button>
-                </form>
-            </div>
+    <!-- PORTADA -->
+    <header class="hero">
+        <p style="text-transform: uppercase; letter-spacing: 5px; color: var(--gold); font-size: 0.8rem; margin-bottom: 10px;">Experiencia Interactiva</p>
+        <h1>Apex Luxury B2B</h1>
+        <p>Descubra cómo transformamos su hotel implementando infraestructura de soberanía financiera. Deslice hacia abajo para ver el modelo en acción en su propio sitio web.</p>
+    </header>
 
-            <div class="glass-card" style="margin-top: 30px;">
-                <h2>Panel de Ingresos (Tiempo Real)</h2>
-                <div class="table-wrapper">
-                    <table class="log-table">
-                        <thead>
-                            <tr>
-                                <th>Huésped</th>
-                                <th>Canal Digital</th>
-                                <th>Recaudo Neto</th>
-                                <th>Estado</th>
-                            </tr>
-                        </thead>
-                        <tbody id="logBody">
-                            </tbody>
-                    </table>
-                </div>
-            </div>
+    <!-- PASO 1 -->
+    <section class="step-section hidden-step">
+        <div class="step-content">
+            <p style="color: var(--gold); letter-spacing: 3px; font-size: 0.8rem;">Pilar 01</p>
+            <h2>Terminal de Recaudo Directo</h2>
+            <p>Así se integrará el sistema de pagos directamente en su página web. Cuando el huésped reserve, el dinero irá instantáneamente a la cuenta operativa de su hotel, sin intermediarios ni retenciones.</p>
         </div>
+        <div class="step-visual">
+            <!-- AQUÍ ESTÁ EL CAMBIO: Imagen envuelta en un enlace con la clase clickable-image -->
+            <a href="pilar1.html" onclick="iniciarTransicion(event, 'pilar1.html')">
+                <img src="./imagenes/imagen check in.png" alt="Mockup Checkout Hotel" class="floating-mockup clickable-image">
+            </a>
+        </div>
+    </section>
 
-        <aside class="sidebar">
-            <div class="glass-card audit-box">
-                <h3 style="font-size: 0.7rem; color: var(--danger); letter-spacing: 3px; text-transform: uppercase; margin-bottom: 20px;">Auditoría Financiera de Fuga</h3>
-                <div class="field">
-                    <label>Venta Mensual Estimada (Airbnb/Booking)</label>
-                    <input type="number" id="revInput" value="45000000" oninput="calculate()">
-                </div>
-                
-                <div class="stat-display">
-                    <span class="stat-label">Comisiones perdidas este mes (20%)</span>
-                    <span class="val minus" id="lossText">$ 9.000.000</span>
-                </div>
+    <!-- PASO 2 -->
+<!-- PASO 2 -->
+    <section class="step-section hidden-step">
+        <div class="step-content">
+            <p style="color: var(--gold); letter-spacing: 3px; font-size: 0.8rem;">Pilar 02</p>
+            <h2>Generador de Margen Incremental</h2>
+            <p>Un panel de control oculto (Backend) solo visible para la gerencia. Aquí podrá ver en tiempo real cómo ese 20% que antes pagaba en comisiones, ahora se refleja como flujo de caja directo y utilidad neta.</p>
+        </div>
+        <div class="step-visual">
+            <!-- AQUÍ ESTÁ EL CAMBIO: Imagen envuelta en el enlace hacia pilar2.html -->
+            <a href="pilar2.html" onclick="iniciarTransicion(event, 'pilar2.html')">
+                <img src="./imagenes/margen .png" alt="Panel de Control Financiero" class="floating-mockup clickable-image">
+            </a>
+        </div>
+    </section>
 
-                <div class="stat-display" style="border: 2px dashed rgba(0, 230, 118, 0.2); background: rgba(0, 230, 118, 0.02);">
-                    <span class="stat-label">Utilidad neta recuperada hoy</span>
-                    <span class="val plus" id="gainText">$ 9.000.000</span>
-                </div>
-                <p style="font-size: 0.55rem; opacity: 0.4; letter-spacing: 1px; margin-top: 20px;">
-                    SISTEMA DE INDEPENDENCIA FINANCIERA V.2026
-                </p>
-            </div>
-        </aside>
-    </div>
-</section>
+    <!-- PASO 3 -->
+    <section class="step-section hidden-step">
+        <div class="step-content">
+            <p style="color: var(--gold); letter-spacing: 3px; font-size: 0.8rem;">Pilar 03</p>
+            <h2>Soberanía y Activo de Datos</h2>
+            <p>Su hotel deja de alquilar clientes. La infraestructura recolecta la información de sus huéspedes en bases de datos propias, permitiéndole construir un patrimonio digital escalable y automatizado.</p>
+        </div>
+        <div class="step-visual">
+            <!-- Imagen simulando una base de datos o perfil de cliente -->
+<a href="pilar3.html" onclick="iniciarTransicion(event, 'pilar3.html')">
+    <img src="./imagenes/patrinomio digital.png" alt="Gestión de Datos" class="floating-mockup clickable-image">
+</a>        </div>
+    </section>
 
-<footer>
-    ANDRÉS VILLEGAS | ESTRATEGIA TECNOLÓGICA B2B TOURISM
-</footer>
+    <!-- SCRIPT PARA ACTIVAR LAS ANIMACIONES AL HACER SCROLL Y TRANSICIONES -->
+    <script>
+        // =========================================
+        // 1. ANIMACIONES DE SCROLL (IntersectionObserver)
+        // =========================================
+        const elementsToAnimate = document.querySelectorAll('.hidden-step');
 
-<script>
-    // PERSONALIZACIÓN DEL CLIENTE
-    const currentHotel = "Su Hotel Aqui"; // Andrés, cambia esto aquí
-    document.getElementById('hotelBrand').innerText = currentHotel;
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry) => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('show-step');
+                }
+            });
+        }, {
+            threshold: 0.2 
+        });
 
-    // CALCULADORA FINANCIERA B2B
-    function calculate() {
-        const rev = document.getElementById('revInput').value || 0;
-        const loss = rev * 0.20; // 20% comisiones plataformas + transacción
-        const fmt = new Intl.NumberFormat('es-CO', { style: 'currency', currency: 'COP', maximumFractionDigits: 0 });
-        
-        document.getElementById('lossText').innerText = fmt.format(loss);
-        document.getElementById('gainText').innerText = fmt.format(loss);
-    }
+        elementsToAnimate.forEach((element) => {
+            observer.observe(element);
+        });
 
-    // REGISTRO DE RESERVA SIMULADA
-    document.getElementById('bookingForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-        const guest = document.getElementById('guestName').value;
-        // Precio simulado alto para la "trama"
-        const price = '$' + (Math.floor(Math.random() * 900) + 400) + '.000';
-        
-        const row = `<tr>
-            <td style="font-weight: 600; color: white;">${guest}</td>
-            <td style="opacity: 0.7;">Orgánico / Directo</td>
-            <td style="color: var(--success); font-weight: 700;">${price}</td>
-            <td><span class="status-badge">RECAUDADO</span></td>
-        </tr>`;
-
-        // Insertar al inicio con una leve animación de opacidad
-        document.getElementById('logBody').insertAdjacentHTML('afterbegin', row);
-        
-        this.reset();
-        alert("¡Recaudo exitoso! El 100% de este pago neto ha sido registrado directamente en su cuenta operativa.");
-    });
-
-    calculate(); // Ejecutar al cargar
-</script>
-
+        // =========================================
+        // 2. FUNCIÓN DE TRANSICIÓN ENTRE PÁGINAS
+        // =========================================
+        function iniciarTransicion(event, urlDestino) {
+            // Detiene la acción predeterminada del enlace (cambiar de página inmediatamente)
+            event.preventDefault(); 
+            
+            // Activa el telón negro mostrando la capa que estaba invisible
+            document.getElementById('transitionOverlay').classList.add('active');
+            
+            // Espera 500 milisegundos (0.5 segundos) y luego redirige a la página destino
+            setTimeout(() => {
+                window.location.href = urlDestino;
+            }, 500);
+        }
+    </script>
 </body>
 </html>
